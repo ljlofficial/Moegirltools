@@ -5,14 +5,14 @@
  */
  // <nowiki>
  $(function () {
-    if (mw.config.values.wgAction == "edit" || mw.config.values.wgAction == "submit") {
+    if (mw.config.values.wgAction == "edit") {                              //只寻找编辑页面
         var btn = $('<li><a title="LyricsKai可视化编辑">歌词编辑</a></li>');
         btn.click(showLyricsKaiEditor);
         $('#p-cactions ul').append(btn);
     }
     function showLyricsKaiEditor() {
         var textbox = document.getElementById('wpTextbox1');
-        var regex = /(\{\{[Ll]yricsKai[\s\S]*?\|original=)([\s\S]*?)(\|translated=)([\s\S]*?)\}\}/;
+        var regex = /\{\{LyricsKai\}\}/;  //只严格寻找LyricsKai
         var codeContent = '';
         if (textbox.selectionStart == textbox.selectionEnd) {
             codeContent = $(textbox).val();
