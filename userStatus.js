@@ -2,9 +2,9 @@
 // <pre>
 "use strict";
 $(() => (async () => {
-    if (location.hostname.startsWith("mzh.")) {
+    /*if (location.hostname.startsWith("mzh.")) {
         return;
-    }
+    }*/
     await mw.loader.using(["ext.gadget.LocalObjectStorage"]);
     const localObjectStorage = new LocalObjectStorage("UserStatus");
     try {
