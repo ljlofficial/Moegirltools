@@ -1,3 +1,5 @@
+//fork from https://github.com/MoegirlPediaInterfaceAdmins/MoegirlPediaInterfaceCodes/blob/master/src/gadgets/mwPanel/Gadget-mwPanel.js
+//only use vector-2022
 // <pre>
 "use strict";
 $(() => {
