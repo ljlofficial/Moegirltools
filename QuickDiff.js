@@ -1,4 +1,3 @@
-/* 未压缩的版本在 Special:Permanentlink/4421686 */
 $(function() {
     function d() {
         c && (c.abort(), c = null)
@@ -15,7 +14,7 @@ $(function() {
                 top: "-13px",
                 bottom: "",
                 "border-top-color": "transparent",
-                "border-bottom-color": "#a7d7f9",
+                "border-bottom-color": "#66ccff",
                 left: $(f).offset().left + $(f).width() / 2 - 20 - 6
             })) : ($("#quick-diff").css({
                 top: $(f).offset().top - 6,
@@ -36,12 +35,12 @@ $(function() {
                 data: g,
                 timeout: 15e3,
                 success: function(a) {
-                    a.compare && null != a.compare["*"] ? ($("#quick-diff-content").html('<table class="diff diff-contentalign-left" data-mw="interface"><colgroup><col class="diff-marker"><col class="diff-content"><col class="diff-marker"><col class="diff-content"></colgroup><tbody>' + ("" === a.compare["*"] ? '<div style="text-align: center;">（没有差异）</div>' : a.compare["*"]) + "</tbody></table>"), $.each(window.QuickDiffExtension || [], function(b, c) {
+                    a.compare && null != a.compare["*"] ? ($("#quick-diff-content").html('<table class="diff diff-contentalign-left" data-mw="interface"><colgroup><col class="diff-marker"><col class="diff-content"><col class="diff-marker"><col class="diff-content"></colgroup><tbody>' + ("" === a.compare["*"] ? '<div style="text-align: center;color: red">（没有差异）</div>' : a.compare["*"]) + "</tbody></table>"), $.each(window.QuickDiffExtension || [], function(b, c) {
                         "function" == typeof c && c($("#quick-diff")[0], a)
                     })) : $("#quick-diff-content").html('<div>出现未知错误，以下是错误信息，请<a href="/User_talk:Nzh21">反馈给Nzh21</a></div>' + JSON.stringify(a)), c = null
                 },
                 error: function() {
-                    $("#quick-diff-content").html('<div style="text-align: center; color: red; font-size: larger;">网络连接出错</div>'), c = null
+                    $("#quick-diff-content").html('<div style="text-align: center; color: darkred; font-size: larger;">网络连接出错</div>'), c = null
                 }
             })
         }, 300))
