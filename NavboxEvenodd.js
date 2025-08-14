@@ -29,7 +29,7 @@ $(() => (async () => {
         rvprop: 'content'
     });
     let pageCode = data.query.pages[mw.config.get('wgArticleId')].revisions[0]['*'],
-        pageCodeStart, 
+        pageCodeStart,
         pageCodeEnd,
         currentIsOdd = false,
         oddStyle = '',
@@ -136,7 +136,7 @@ $(() => (async () => {
         if(adjacentIsOdd) {
             str += `${indent}|evenodd = swap\n`;
         }
-        
+
         if(str != '\n') {
             str = str.slice(0, str.length - 1);
             return str;
@@ -171,27 +171,27 @@ $(() => (async () => {
                 // list 内容为空则跳过
                 if(check(code, i, /\s*(\||})/)) {
                     continue;
-                /**
-                 * 当 list 紧接着子 Navbox 时，不翻转奇偶
-                 * @todo 还有一种少见的情况未考虑到，即 list 紧接着子 Navbox 再紧接着内容
-                 */
+                    /**
+                     * 当 list 紧接着子 Navbox 时，不翻转奇偶
+                     * @todo 还有一种少见的情况未考虑到，即 list 紧接着子 Navbox 再紧接着内容
+                     */
                 } else if(check(code, i, /\s*{{#invoke:Nav\|box/)) {
 
-                // 否则翻转奇偶
+                    // 否则翻转奇偶
                 } else {
                     currentIsOdd = !currentIsOdd;
                 }
             } else if(check(code, i, /title\s*=/)) {
                 hasTitle = true;
-            // 在 collapsible groups 中，group 参数发挥 title 的作用
+                // 在 collapsible groups 中，group 参数发挥 title 的作用
             } else if(isCollapsibleGroups && check(code, i, /group\d+\s*=/)) {
                 currentIsOdd = false;
-            /**
-             * 删除原有的 evenodd、evenstyle、oddstyle 参数
-             * @todo 删除 listnstyle 中的 background 属性
-             */
+                /**
+                 * 删除原有的 evenodd、evenstyle、oddstyle 参数
+                 * @todo 删除 listnstyle 中的 background 属性
+                 */
             } else if(
-                check(code, i, /evenodd\d*\s*=/) || 
+                check(code, i, /evenodd\d*\s*=/) ||
                 (!evenoddOnly && check(code, i, /(evenstyle|oddstyle)\d*\s*=/))
             ) {
                 let lineStart = code.slice(0, i + 1).lastIndexOf('\n');
@@ -200,7 +200,7 @@ $(() => (async () => {
                 // 跳转到行首，避免因为删除而跳过一些内容
                 i -= (i - lineStart);
             }
-            
+
             // 有子 Navbox 则递归
             if(check(code, i, /{{#invoke:Nav\|box/)) {
                 let subCode = code.slice(i+1, match(code, i+1, '{', '}'));
@@ -259,8 +259,8 @@ $(() => (async () => {
     ProcessDialog.static.actions = [
         {
             action: 'execute',
-            label: '执行', 
-            flags: ['primary', 'progressive'] 
+            label: '执行',
+            flags: ['primary', 'progressive']
         },
         {
             action: 'close',
@@ -389,13 +389,13 @@ $(() => (async () => {
             .css({'border-bottom': '1px solid #a2a9b1'});
         this.$element.find('.oo-ui-window-body')
             .css({
-                'outline': 'none', 
+                'outline': 'none',
                 'bottom': '0'
             });
         this.$element.find('.oo-ui-processDialog-actions-other')
             .css({
-                'background': '#eaecf0', 
-                'border-top': '1px solid #a2a9b1', 
+                'background': '#eaecf0',
+                'border-top': '1px solid #a2a9b1',
                 'padding': '7px 1.14em 9px'
             });
         this.$element.find('.oo-ui-processDialog-actions-other .oo-ui-actionWidget')
@@ -407,9 +407,9 @@ $(() => (async () => {
             .css({'margin': '0'});
         this.$element.find('.oo-ui-processDialog-actions-primary>span>a')
             .css({
-                'border': 'none', 
-                'border-radius': '0', 
-                'padding-top': '0', 
+                'border': 'none',
+                'border-radius': '0',
+                'padding-top': '0',
                 'padding-bottom': '0'
             });
         this.$element.find('.oo-ui-processDialog-actions-primary>span>a .oo-ui-labelElement-label')
@@ -435,9 +435,9 @@ $(() => (async () => {
             currentIsOdd = this.toggle_revert.isSelected();
             oddStyle = " " + this.oddInput.getValue().trim();
             evenStyle = " " + this.evenInput.getValue().trim();
-            pageCode = 
-                pageCode.slice(0, pageCodeStart) + 
-                parse(pageCode.slice(pageCodeStart, pageCodeEnd), currentIsOdd) + 
+            pageCode =
+                pageCode.slice(0, pageCodeStart) +
+                parse(pageCode.slice(pageCodeStart, pageCodeEnd), currentIsOdd) +
                 pageCode.slice(pageCodeEnd);
 
             mw.notify('执行完毕，正在提交编辑。');
