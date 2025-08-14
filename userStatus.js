@@ -5,6 +5,7 @@ $(() => (async () => {
     /*if (location.hostname.startsWith("mzh.")) {
         return;
     }*/
+    //不管是不是mzh了，只要知道哪里装了vector就行。
     await mw.loader.using(["ext.gadget.LocalObjectStorage"]);
     const localObjectStorage = new LocalObjectStorage("UserStatus");
     try {
@@ -19,7 +20,7 @@ $(() => (async () => {
             _unknown: '<img class="pt-userstatus-img" src="https://img.moegirl.org.cn/common/8/89/Symbol_neutral_vote.svg"> <i style="color:gray;">状态不详</i>',
         };
         const originalBuiltinStatusIndex = Object.keys(builtinStatus);
-        mw.loader.addStyleTag("#pt-userstatus { margin-top: 0.75em !important; margin-bottom: 0px !important; } .pt-userstatus-img { width: 25px; margin-top: -0.25em; }");
+        mw.loader.addStyleTag("#pt-userstatus { margin-top: 0.75em !important; margin-bottom: 0px !important; } .pt-userstatus-img { width: 25px; margin-top: -0.25em; } mw.list.item");
         builtinStatus.on = builtinStatus.online;
         builtinStatus.off = builtinStatus.offline;
         builtinStatus.break = builtinStatus.wikibreak;
@@ -77,7 +78,7 @@ $(() => (async () => {
             windowManager.addWindows([messageDialog]);
             messageDialog.title.$label.html("修改自己的状态");
             const container = $("<div/>");
-            container.append(`<p>修改<a href="${mw.config.get("wgServer")}${mw.config.get("wgScriptPath")}/${statusPage}">自己的状态</a>为：</p>`);
+            container.append(`<p>修改自己的状态为：</p>`);
             const builtinStatusList = originalBuiltinStatusIndex.map((data, i) => data === "_unknown" ? undefined : { data, label: `${i}`, html: builtinStatus[data] }).filter(n => !!n);
             const builtinStatusSelector = new OO.ui.RadioSelectInputWidget({
                 value: rawStatus,
