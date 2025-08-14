@@ -10,17 +10,17 @@ $(() => (async () => {
     const localObjectStorage = new LocalObjectStorage("UserStatus");
     try {
         const builtinStatus = {
-            online: '<img class="pt-userstatus-img" src="https://img.moegirl.org.cn/common/9/94/Symbol_support_vote.svg"> <b style="color:green;">在线</b>',
-            busy: '<img class="pt-userstatus-img" src="https://img.moegirl.org.cn/common/c/c5/Symbol_support2_vote.svg"> <b style="color:blue;">忙碌</b>',
-            offline: '<img class="pt-userstatus-img" src="https://img.moegirl.org.cn/common/7/7f/Symbol_oppose_vote.svg"> <b style="color:red;">离线</b>',
-            away: '<img class="pt-userstatus-img" src="https://img.moegirl.org.cn/common/6/6c/Time2wait.svg"> <b style="color:grey;">已离开</b>',
-            sleeping: '<img class="pt-userstatus-img" src="https://img.moegirl.org.cn/common/5/54/Symbol_wait.svg"> <b style="color:purple;">在睡觉</b>',
-            wikibreak: '<img class="pt-userstatus-img" src="https://img.moegirl.org.cn/common/6/61/Symbol_abstain_vote.svg"> <b style="color:brown;">正在放萌百假期</b>',
-            holiday: '<img class="pt-userstatus-img" src="https://img.moegirl.org.cn/common/3/30/Symbol_deferred.svg"> <b style="color:#7B68EE;">处于假期中</b>',
-            _unknown: '<img class="pt-userstatus-img" src="https://img.moegirl.org.cn/common/8/89/Symbol_neutral_vote.svg"> <i style="color:gray;">状态不详</i>',
-        };
+            online: '<img class="pt-userstatus-img" src="https://img.moegirl.org.cn/common/9/94/Symbol_support_vote.svg"> <b style="color:green;">online</b>',
+            busy: '<img class="pt-userstatus-img" src="https://img.moegirl.org.cn/common/c/c5/Symbol_support2_vote.svg"> <b style="color:blue;">busy</b>',
+            offline: '<img class="pt-userstatus-img" src="https://img.moegirl.org.cn/common/7/7f/Symbol_oppose_vote.svg"> <b style="color:red;">offline</b>',
+            away: '<img class="pt-userstatus-img" src="https://img.moegirl.org.cn/common/6/6c/Time2wait.svg"> <b style="color:grey;">away</b>',
+            sleeping: '<img class="pt-userstatus-img" src="https://img.moegirl.org.cn/common/5/54/Symbol_wait.svg"> <b style="color:purple;">sleeping</b>',
+            wikibreak: '<img class="pt-userstatus-img" src="https://img.moegirl.org.cn/common/6/61/Symbol_abstain_vote.svg"> <b style="color:brown;">moegirl holiday</b>',
+            holiday: '<img class="pt-userstatus-img" src="https://img.moegirl.org.cn/common/3/30/Symbol_deferred.svg"> <b style="color:#7B68EE;">holiday</b>',
+            _unknown: '<img class="pt-userstatus-img" src="https://img.moegirl.org.cn/common/8/89/Symbol_neutral_vote.svg"> <i style="color:gray;">unknown</i>',
+        };   //看着中文有点……奇怪？算了，改成英文。
         const originalBuiltinStatusIndex = Object.keys(builtinStatus);
-        mw.loader.addStyleTag("#pt-userstatus { margin-top: 0.75em !important; margin-bottom: 0px !important; } .pt-userstatus-img { width: 25px; margin-top: -0.25em; } mw.list.item");
+        mw.loader.addStyleTag("#pt-userstatus { margin-top: 0.75em !important; margin-bottom: 0px !important; } .pt-userstatus-img { width: 25px; margin-top: -0.25em; }");//这一段没必要改
         builtinStatus.on = builtinStatus.online;
         builtinStatus.off = builtinStatus.offline;
         builtinStatus.break = builtinStatus.wikibreak;
@@ -69,7 +69,7 @@ $(() => (async () => {
             div.find("img").attr("class", "pt-userstatus-img");
             return div.html();
         })();
-        const pt = $("<li id=\"pt-userstatus\"><a id=\"pt-userpage-link\" href=\"javascript:void(0);\" dir=\"auto\" title=\"您的状态\"></a></li>");
+        const pt = $("<li id=\"pt-userstatus\" class=\"mw-list-item user-links-collapsible-item\"><a id=\"pt-userpage-link\" href=\"javascript:void(0);\" dir=\"auto\" title=\"您的状态\"></a></li>");  //菜单样式
         pt.find("#pt-userpage-link").html(currentStatus).on("click", async () => {
             await mw.loader.using(["oojs-ui", "mediawiki.api"]);
             const messageDialog = new OO.ui.MessageDialog();
@@ -125,7 +125,7 @@ $(() => (async () => {
                         action: "edit",
                         title: statusPage,
                         text: status,
-                        summary: `修改状态为 - ${status}`,
+                        summary: `更新状态 - ${status}`,  //编辑摘要
                         tags: "Automation tool",
                         minor: true,
                     });
@@ -152,7 +152,7 @@ $(() => (async () => {
                     });
                 } catch (e) {
                     fMessageDialog.title.$label.html("状态修改发生错误……");
-                    fMessageDialog.message.$label.html(`错误信息为：${e}`);
+                    fMessageDialog.message.$label.html(`reason：${e}`);
                     windowManager.openWindow(fMessageDialog, {
                         actions: [cAction],
                     });
@@ -165,13 +165,13 @@ $(() => (async () => {
             });
             return false;
         });
-        $("#pt-userpage").after(pt);
+        $("#pt-userpage-2, #pt-avatar").after(pt);
         mw.loader.using(["oojs-ui", "mediawiki.api"]);
     } catch (reason) {
         console.error(reason);
         const lastError = sessionStorage.getItem("AnnTools-userstatus-img-Error");
         if (lastError !== reason.toString()) {
-            alert(`显示用户状态工具发生错误：\n${reason}`);
+            alert(`显示用户状态工具失败。reason：\n${reason}`);
             sessionStorage.setItem("AnnTools-userstatus-img-Error", reason);
         }
     }
