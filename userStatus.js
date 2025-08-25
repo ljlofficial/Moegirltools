@@ -165,7 +165,8 @@ $(() => (async () => {
             });
             return false;
         });
-        $("#pt-userpage-2, #pt-avatar").after(pt);
+        $("#pt-userpage").before(pt);
+        $("#pt-userpage-2").after(pt.clone());
         mw.loader.using(["oojs-ui", "mediawiki.api"]);
     } catch (reason) {
         console.error(reason);
