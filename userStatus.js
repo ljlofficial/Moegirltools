@@ -2,25 +2,24 @@
 // <pre>
 "use strict";
 $(() => (async () => {
-    /*if (location.hostname.startsWith("mzh.")) {
+    /* if (location.hostname.startsWith("mzh.")) {
         return;
-    }*/
-    //不管是不是mzh了，只要知道哪里装了vector就行。
+    } */
     await mw.loader.using(["ext.gadget.LocalObjectStorage"]);
     const localObjectStorage = new LocalObjectStorage("UserStatus");
     try {
         const builtinStatus = {
-            online: '<img class="pt-userstatus-img" src="https://img.moegirl.org.cn/common/9/94/Symbol_support_vote.svg"> <b style="color:green;">online</b>',
-            busy: '<img class="pt-userstatus-img" src="https://img.moegirl.org.cn/common/c/c5/Symbol_support2_vote.svg"> <b style="color:blue;">busy</b>',
-            offline: '<img class="pt-userstatus-img" src="https://img.moegirl.org.cn/common/7/7f/Symbol_oppose_vote.svg"> <b style="color:red;">offline</b>',
-            away: '<img class="pt-userstatus-img" src="https://img.moegirl.org.cn/common/6/6c/Time2wait.svg"> <b style="color:grey;">away</b>',
-            sleeping: '<img class="pt-userstatus-img" src="https://img.moegirl.org.cn/common/5/54/Symbol_wait.svg"> <b style="color:purple;">sleeping</b>',
-            wikibreak: '<img class="pt-userstatus-img" src="https://img.moegirl.org.cn/common/6/61/Symbol_abstain_vote.svg"> <b style="color:brown;">moegirl holiday</b>',
-            holiday: '<img class="pt-userstatus-img" src="https://img.moegirl.org.cn/common/3/30/Symbol_deferred.svg"> <b style="color:#7B68EE;">holiday</b>',
-            _unknown: '<img class="pt-userstatus-img" src="https://img.moegirl.org.cn/common/8/89/Symbol_neutral_vote.svg"> <i style="color:gray;">unknown</i>',
-        };   //看着中文有点……奇怪？算了，改成英文。
+            online: '<img class="pt-userstatus-img" src="https://img.moegirl.org.cn/common/9/94/Symbol_support_vote.svg"> <b style="color:green;">在线</b>',
+            busy: '<img class="pt-userstatus-img" src="https://img.moegirl.org.cn/common/c/c5/Symbol_support2_vote.svg"> <b style="color:blue;">忙碌</b>',
+            offline: '<img class="pt-userstatus-img" src="https://img.moegirl.org.cn/common/7/7f/Symbol_oppose_vote.svg"> <b style="color:red;">离线</b>',
+            away: '<img class="pt-userstatus-img" src="https://img.moegirl.org.cn/common/6/6c/Time2wait.svg"> <b style="color:grey;">已离开</b>',
+            sleeping: '<img class="pt-userstatus-img" src="https://img.moegirl.org.cn/common/5/54/Symbol_wait.svg"> <b style="color:purple;">在睡觉</b>',
+            wikibreak: '<img class="pt-userstatus-img" src="https://img.moegirl.org.cn/common/6/61/Symbol_abstain_vote.svg"> <b style="color:brown;">正在放萌百假期</b>',
+            holiday: '<img class="pt-userstatus-img" src="https://img.moegirl.org.cn/common/3/30/Symbol_deferred.svg"> <b style="color:#7B68EE;">处于假期中</b>',
+            _unknown: '<img class="pt-userstatus-img" src="https://img.moegirl.org.cn/common/8/89/Symbol_neutral_vote.svg"> <i style="color:gray;">状态不详</i>',
+        };
         const originalBuiltinStatusIndex = Object.keys(builtinStatus);
-        mw.loader.addStyleTag("#pt-userstatus { margin-top: 0.75em !important; margin-bottom: 0px !important; } .pt-userstatus-img { width: 25px; margin-top: -0.25em; }");//这一段没必要改
+        mw.loader.addStyleTag("#pt-userstatus { width: max-content; } .pt-userstatus-img { width: 20px; margin-top: -0.25em; } #vector-user-links-dropdown .pt-userstatus-img { margin-right: 6px; margin-top: 0; }");
         builtinStatus.on = builtinStatus.online;
         builtinStatus.off = builtinStatus.offline;
         builtinStatus.break = builtinStatus.wikibreak;
@@ -69,7 +68,7 @@ $(() => (async () => {
             div.find("img").attr("class", "pt-userstatus-img");
             return div.html();
         })();
-        const pt = $("<li id=\"pt-userstatus\" class=\"mw-list-item user-links-collapsible-item\"><a id=\"pt-userpage-link\" href=\"javascript:void(0);\" dir=\"auto\" title=\"您的状态\"></a></li>");  //菜单样式
+        const pt = $("<li id=\"pt-userstatus\" class=\"mw-list-item user-links-collapsible-item\"><a id=\"pt-userpage-link\" href=\"javascript:void(0);\" dir=\"auto\" title=\"您的状态\"></a></li>");
         pt.find("#pt-userpage-link").html(currentStatus).on("click", async () => {
             await mw.loader.using(["oojs-ui", "mediawiki.api"]);
             const messageDialog = new OO.ui.MessageDialog();
@@ -78,7 +77,7 @@ $(() => (async () => {
             windowManager.addWindows([messageDialog]);
             messageDialog.title.$label.html("修改自己的状态");
             const container = $("<div/>");
-            container.append(`<p>修改自己的状态为：</p>`);
+            container.append(`<p>修改<a href="${mw.config.get("wgServer")}${mw.config.get("wgScriptPath")}/${statusPage}">自己的状态</a>为：</p>`);
             const builtinStatusList = originalBuiltinStatusIndex.map((data, i) => data === "_unknown" ? undefined : { data, label: `${i}`, html: builtinStatus[data] }).filter(n => !!n);
             const builtinStatusSelector = new OO.ui.RadioSelectInputWidget({
                 value: rawStatus,
@@ -125,7 +124,7 @@ $(() => (async () => {
                         action: "edit",
                         title: statusPage,
                         text: status,
-                        summary: `更新状态 - ${status}`,  //编辑摘要
+                        summary: `修改状态为 - ${status}`,
                         tags: "Automation tool",
                         minor: true,
                     });
@@ -152,7 +151,7 @@ $(() => (async () => {
                     });
                 } catch (e) {
                     fMessageDialog.title.$label.html("状态修改发生错误……");
-                    fMessageDialog.message.$label.html(`reason：${e}`);
+                    fMessageDialog.message.$label.html(`错误信息为：${e}`);
                     windowManager.openWindow(fMessageDialog, {
                         actions: [cAction],
                     });
@@ -172,7 +171,7 @@ $(() => (async () => {
         console.error(reason);
         const lastError = sessionStorage.getItem("AnnTools-userstatus-img-Error");
         if (lastError !== reason.toString()) {
-            alert(`显示用户状态工具失败。reason：\n${reason}`);
+            alert(`显示用户状态工具发生错误：\n${reason}`);
             sessionStorage.setItem("AnnTools-userstatus-img-Error", reason);
         }
     }

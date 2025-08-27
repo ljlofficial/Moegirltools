@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6f76a39b-a0d8-4844-91b8-75a03ed37004" name="更改" comment="" />
+    <list default="true" id="6f76a39b-a0d8-4844-91b8-75a03ed37004" name="更改" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -78,7 +80,8 @@
       <updated>1755144583869</updated>
       <workItem from="1755144585375" duration="1064000" />
       <workItem from="1755147645805" duration="2559000" />
-      <workItem from="1756088053608" duration="88000" />
+      <workItem from="1756088053608" duration="431000" />
+      <workItem from="1756302869447" duration="20000" />
     </task>
     <task id="LOCAL-00001" summary="update tools">
       <option name="closed" value="true" />
@@ -104,7 +107,15 @@
       <option name="project" value="LOCAL" />
       <updated>1755149719572</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="跟随上游修复">
+      <option name="closed" value="true" />
+      <created>1756088338557</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1756088338557</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -112,6 +123,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="update tools" />
-    <option name="LAST_COMMIT_MESSAGE" value="update tools" />
+    <MESSAGE value="跟随上游修复" />
+    <option name="LAST_COMMIT_MESSAGE" value="跟随上游修复" />
   </component>
 </project>
